@@ -2,7 +2,7 @@
 {
     public class ProjectViewModel
     {
-        public ProjectViewModel(int Id, string title, DateTime createdAt)
+        public ProjectViewModel(int id, string title, DateTime createdAt)
         {
             Id = Id;
             Title = title;
