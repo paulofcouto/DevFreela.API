@@ -1,7 +1,8 @@
-using DevFreela.API.Model;
 using DevFreela.Application.Services.Implementations;
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<DevFreelaDbContext>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
-builder.Services.Configure<OpeningTimeOption>(builder.Configuration.GetSection("OpeningTime"));
-
+var configuration = builder.Configuration.GetConnectionString("DevFreelaCs");
+builder.Services.AddDbContext<DevFreelaDbContext>(
+    options => options.UseSqlServer(configuration, b => b.MigrationsAssembly("DevFreela.Infrastructure"))
+);
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -26,8 +29,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
 
 app.UseHttpsRedirection();
 

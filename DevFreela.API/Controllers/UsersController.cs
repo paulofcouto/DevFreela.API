@@ -1,4 +1,5 @@
 ﻿using DevFreela.API.Model;
+using DevFreela.Application.InputModel;
 using DevFreela.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace DevFreela.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var user = _userService.GetUser(id);
+            var user = _userService.GetById(id);
 
             if (user == null)
             {
@@ -28,7 +29,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateUserInputModel inputModel)
+        public IActionResult Post([FromBody] NewUserInputModel inputModel)
         {
             var id = _userService.Create(inputModel);
 
