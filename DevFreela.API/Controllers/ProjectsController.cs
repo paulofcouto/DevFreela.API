@@ -53,9 +53,15 @@ namespace DevFreela.API.Controllers
                 return BadRequest();
             }
 
-            var _id = await _mediator.Send(command);
-
-            return CreatedAtAction(nameof(GetById), new { id = _id }, command);
+            try
+            {
+                var _id = await _mediator.Send(command);
+                return CreatedAtAction(nameof(GetById), new { id = _id }, command);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         [HttpPut("{id}")]

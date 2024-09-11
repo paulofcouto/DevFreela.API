@@ -1,7 +1,10 @@
+using DevFreela.API.Filters;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Services.Implementations;
 using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Validators;
 using DevFreela.Infrastructure.Persistence;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,13 +16,10 @@ builder.Services.AddDbContext<DevFreelaDbContext>(
     options => options.UseSqlServer(configuration, t => t.MigrationsAssembly("DevFreela.Infrastructure"))
 );
 
-//Utilizar banco de dados em memoria com EntityFramework
-//builder.Services.AddDbContext<DevFreelaDbContext>(options =>
-//            options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"));
-
 builder.Services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(CreateProjectCommandHandler).Assembly));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
+    .AddFluentValidation(t => t.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
