@@ -48,30 +48,14 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (command.Title.Length > 50)
-            {
-                return BadRequest();
-            }
+            var id = await _mediator.Send(command);
 
-            try
-            {
-                var _id = await _mediator.Send(command);
-                return CreatedAtAction(nameof(GetById), new { id = _id }, command);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            return CreatedAtAction(nameof(GetById), new { id = id }, command);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id,[FromBody] UpdateProjectCommand command)
         {
-            if (command.Description.Length > 200)
-            {
-                return BadRequest();
-            }
-
             await _mediator.Send(command);
 
             return NoContent();
