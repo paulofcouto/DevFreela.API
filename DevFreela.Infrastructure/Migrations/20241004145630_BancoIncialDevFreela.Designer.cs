@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevFreela.Infrastructure.Migrations
 {
     [DbContext(typeof(DevFreelaDbContext))]
-    [Migration("20240512183829_InitialDevFreela")]
-    partial class InitialDevFreela
+    [Migration("20241004145630_BancoIncialDevFreela")]
+    partial class BancoIncialDevFreela
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,14 @@ namespace DevFreela.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -179,7 +187,7 @@ namespace DevFreela.Infrastructure.Migrations
 
             modelBuilder.Entity("DevFreela.Core.Entities.Project", b =>
                 {
-                    b.HasOne("DevFreela.Core.Entities.User", "Cliente")
+                    b.HasOne("DevFreela.Core.Entities.User", "Client")
                         .WithMany("OwnedProjects")
                         .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -191,7 +199,7 @@ namespace DevFreela.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Client");
 
                     b.Navigation("Freelancer");
                 });
