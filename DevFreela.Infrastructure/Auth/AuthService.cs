@@ -23,7 +23,7 @@ namespace DevFreela.Infrastructure.Auth
 
             if (string.IsNullOrEmpty(secretKey))
             {
-                throw new InvalidOperationException("A Hash de senha não pode ser nula ou vazia.");
+                throw new InvalidOperationException("A Hash de senha não está configurada.");
             }
 
             using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey)))
@@ -45,6 +45,11 @@ namespace DevFreela.Infrastructure.Auth
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
             var key = _configuration["Jwt:Key"];
+
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new Exception("A chave JWT não está configurada.");
+            }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new  SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

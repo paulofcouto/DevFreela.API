@@ -1,6 +1,5 @@
 ﻿using DevFreela.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace DevFreela.Infrastructure.Persistence
@@ -17,6 +16,7 @@ namespace DevFreela.Infrastructure.Persistence
         public DbSet<Skill> Skills { get; set; }
         public DbSet<UserSkill> UserSkills { get; set; }
         public DbSet<ProjectComment> Comments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -26,10 +26,6 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
                 .WithMany(f => f.OwnedProjects)
                 .HasForeignKey(t => t.IdCliente)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Property(p => p.TotalCost)
-                .HasColumnType("decimal(18,2)");
         }
     }
 }
